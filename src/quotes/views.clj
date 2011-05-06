@@ -39,7 +39,7 @@
   [:li.quote] (html/clone-for
     [{:keys [body timestamp id flagged tags up down]} quotes]
     [:h3] (html/set-attr :id (str "quote-header-" id))
-    [:blockquote.quote-body :p] (html/content body)
+    [:blockquote.quote-body :pre] (html/content body)
     [:span.quote-id] (html/content (str "#" id))
     [:a.quote-permalink] (html/set-attr :href (str "/quotes/" id))
     [:a.quote-rating-up] (html/do-> (html/remove-class "casted-vote") (html/set-attr :href (format "/quotes/%s/votes" id) :id (str "quote-rating-up-" id)))
@@ -84,7 +84,6 @@
 
 (defn quote-submitted
   [success]
-  (println "wtf:" success)
   (if (reduce #(true? (and %1 %2)) success) ; success is a list of bools, verify they are all true
     (base (assoc *context* :content {:title "Quote Submitted" :text "Thank you for submitting a quote to our database. A site administrator will review it shortly. If it gets approved, it will appear on this web site. Fingers crossed!"}) simple-message-content)
     (base (assoc *context* :content { :title "Submission Failed" :text "There was an error. Sorry :("}) simple-message-content)))
