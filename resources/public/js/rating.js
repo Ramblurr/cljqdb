@@ -57,6 +57,14 @@ function rate_down(e)
     rate(e, "down");
 }
 
+function nyi(e)
+{
+    e.preventDefault();
+    var id = e.target.id.split("-").pop();
+    quoteMessage(id, "Not Yet Implemented");
+    return false;
+}
+
 dojo.ready(function(){
     dojo.query("a.quote-rating-up").forEach(
         function(item, index, array) {
@@ -66,6 +74,11 @@ dojo.ready(function(){
     dojo.query("a.quote-rating-down").forEach(
         function(item, index, array) {
             dojo.connect(item, 'onclick', rate_down);
+        }
+    );
+    dojo.query("a.quote-report").forEach(
+        function(item, index, array) {
+            dojo.connect(item, 'onclick', nyi);
         }
     );
 
