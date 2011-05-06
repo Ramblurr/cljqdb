@@ -6,4 +6,5 @@
                  [enlive "1.0.0-SNAPSHOT"]
                  [clj-yaml "0.3.0-SNAPSHOT"]
                  [clj-time  "0.3.0"]
+                 [clj-json "0.3.2"]
                  [ring "0.3.8"]])

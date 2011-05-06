@@ -13,3 +13,13 @@
 
 (defn browse-quotes []
   (views/browse-quotes-html (model/get-latest 100)))
+
+(defn votes [id]
+  (views/quote-votes (model/get-quotes {:id id})))
+
+(defn put-votes [remote-addr {:keys [id type]}]
+  (cond
+    (= type "up")
+      (views/vote-result (model/vote-up id remote-addr))
+    (= type "down")
+      (views/vote-result (model/vote-down id remote-addr))))

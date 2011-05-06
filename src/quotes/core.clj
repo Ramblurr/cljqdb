@@ -12,7 +12,8 @@
 
 (defroutes main-routes
   (GET "/" [] (controller/index))
-  ;(GET "/quotes" [id] (render-quote id))
+  (GET "/quotes/:id/votes" [id] (controller/votes id))
+  (PUT "/quotes/:id/votes" {remote-addr :remote-addr params :params} (controller/put-votes remote-addr params))
   (GET "/quotes" [] (controller/browse-quotes))
   (GET "/quotes/submit" [] (controller/quote-form))
   (POST "/quotes" {params :params} (controller/quote-form-submit params))

@@ -1,5 +1,9 @@
 (ns quotes.views
- (:require [clj-time.core :as time] [clj-time.format :as format] [clj-time.coerce :as coerce] [net.cgrand.enlive-html :as html]))
+ (:require [clj-time.core :as time]
+           [clj-time.format :as format]
+           [clj-time.coerce :as coerce]
+           [net.cgrand.enlive-html :as html]
+           [clj-json [core :as json]]))
 
 (def *context*
   {:header {:title "VT Bash" :href "/"
@@ -77,3 +81,9 @@
 
 (defn browse-quotes-html [quotes]
   (base (assoc *context* :content (quotes-browse-model quotes)) quotes-browse-content))
+
+(defn quote-votes [{:keys [u d]}]
+  (json/generate-string {:up u :down d}))
+
+(defn vote-result [success]
+  (json/generate-string success))
