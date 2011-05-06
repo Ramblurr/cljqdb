@@ -5,6 +5,13 @@
            [net.cgrand.enlive-html :as html]
            [clj-json [core :as json]]))
 
+(defn- emit-json
+  "Turn the object to JSON, and emit it with the correct content type.
+    Source: http://wiki.sproutcore.com/w/page/27098640/Todos%2006-Building%20with%20Compojure%20and%20MongoDB "
+  [x]
+  {:headers {"Content-Type" "application/json"}
+   :body    (json/generate-string x)})
+
 (def *context*
   {:header {:title "VT Bash" :href "/"
    :nav [{:text "Browse" :href "/quotes"}
@@ -83,7 +90,7 @@
   (base (assoc *context* :content (quotes-browse-model quotes)) quotes-browse-content))
 
 (defn quote-votes [{:keys [u d]}]
-  (json/generate-string {:up u :down d}))
+  (emit-json {:up u :down d}))
 
 (defn vote-result [success]
-  (json/generate-string success))
+  (emit-json success))
