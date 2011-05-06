@@ -15,8 +15,10 @@
 
 (defn browse-quotes [params]
   (if (contains? params :start)
-    (let [start (Integer/parseInt (params :start))]
-      (views/browse-quotes-html (model/get-latest page-incr start) start (+ page-incr start)))
+    (try
+      (let [start (max 0 (Integer/parseInt (params :start)))]
+        (views/browse-quotes-html (model/get-latest page-incr start) (max 0 (- start page-incr)) (+ page-incr start)))
+      (catch Exception e (browse-quotes {})))
     (views/browse-quotes-html (model/get-latest page-incr) nil page-incr)))
 
 (defn quote-view [id]
