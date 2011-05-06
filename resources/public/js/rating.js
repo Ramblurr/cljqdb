@@ -24,6 +24,8 @@ function QuotePutRequest( resource, data, resultId, loadCallback, errorCallback 
 function vote_result(id, data)
 {
     if( data ) {
+        dojo.byId("quote-rating-" + data.id).innerHTML = data.up - data.down;
+        dojo.byId("quote-vote-count-" + data.id).innerHTML = data.up + data.down;
         quoteMessage(id, "Vote Counted");
     } else {
         quoteMessage(id, "Already Voted");
