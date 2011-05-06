@@ -62,7 +62,7 @@ a:hover, a:active {
 	border-bottom: 1px solid #999;
 }
 
-h1, h2, h3 {
+h1, h2, h3, .quote-header {
 	font-family: Trebuchet MS, Tahoma, Verdana, Arial, Helvetica, sans-serif;
 	font-weight: normal;
 	margin: 0 0 1em 0;
@@ -316,7 +316,6 @@ ul.quote-list li .quote-tags .quote-tags-title {
 	font-weight: normal;
 }
 
-ul.quote-list div.quote-header .quote-date,
 ul.quote-list div.quote-header .quote-edit,
 ul.quote-list div.quote-header .quote-remove,
 ul.quote-list div.quote-header .quote-unflag,

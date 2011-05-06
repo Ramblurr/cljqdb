@@ -55,7 +55,7 @@ ul.tabbed-pane-header li a:hover, ul.tabbed-pane-header li a:active {
     border-color: #000000;
 }
 
-ul.quote-list li:hover h3.quote-header {
+ul.quote-list li:hover div.quote-header {
     background: #ECECEC;
     border-color: #ECECEC;
 }
@@ -89,7 +89,7 @@ ul.tabbed-pane-header li a:hover, ul.tabbed-pane-header li a:active {
 	border-color: #F0D0A0;
 }
 
-ul.quote-list li:hover h3.quote-header {
+ul.quote-list li:hover div.quote-header {
 	background: #FEC;
 	border-color: #FFE9C9;
 }

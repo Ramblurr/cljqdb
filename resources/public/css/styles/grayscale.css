@@ -42,7 +42,7 @@ ul.tabbed-pane-header li a:hover, ul.tabbed-pane-header li a:active {
 	border-color: #ECECEC;
 }
 
-ul.quote-list li:hover h3.quote-header {
+ul.quote-list li:hover div.quote-header {
 	background: #F6F6F6;
 	border-color: #F0F0F0;
 }
@@ -63,4 +63,9 @@ ul.tabbed-pane-header li a.active-tab {
 
 ul.tabbed-pane-contents {
 	border: 1px solid #E9E9E9;
+}
+
+ul.quote-list div.quote-header .quote-vote-count {
+font-size: 75%;
+color: #999;
 }
