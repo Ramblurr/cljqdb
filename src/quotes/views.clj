@@ -24,7 +24,7 @@
 
 (html/defsnippet quotes-browse-model "views/quotes-browse.html" [[:#quotes-content]] [quotes]
   [:li.quote] (html/clone-for
-    [{:keys [body timestamp id flagged]} quotes]
+    [{:keys [body timestamp id flagged tags]} quotes]
     [:h3] (html/set-attr :id (str "quote-header-" id))
     [:blockquote.quote-body :p] (html/content body)
     [:span.quote-id] (html/content (str "#" id))
@@ -37,6 +37,7 @@
     [:a.quote-report] #(when (not flagged) ((html/set-attr :id (str "quote-report-" id)) %))
         ;((html/content "[REPORT]"))); (html/set-attr :id (str "quote-report-" id) :href "#"))))
     [:span.quote-date] (html/content (format/unparse (format/formatters :rfc822) (coerce/from-long timestamp)))
+    [:div.quote-tags :a] (html/clone-for [tag tags] (html/do-> (html/set-attr :href (str "/tags/" tag) :title (str "View quotes tagged " tag)) (html/content tag)))
     ))
 
 (html/defsnippet simple-message-model (html/html-snippet "<div id=\"message\"><h2></h2><p></p></div>") [:#message]
@@ -69,7 +70,8 @@
 
 (defn quote-submitted
   [success]
-  (if (true? success)
+  (println "wtf:" success)
+  (if (reduce #(true? (and %1 %2)) success) ; success is a list of bools, verify they are all true
     (base (assoc *context* :content {:title "Quote Submitted" :text "Thank you for submitting a quote to our database. A site administrator will review it shortly. If it gets approved, it will appear on this web site. Fingers crossed!"}) simple-message-content)
     (base (assoc *context* :content { :title "Submission Failed" :text "There was an error. Sorry :("}) simple-message-content)))
 
