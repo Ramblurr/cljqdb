@@ -35,7 +35,7 @@
 
 (html/defsnippet quotes-browse-model "views/quotes-browse.html" [[:#quotes-content]] [quotes]
   [:li.quote] (html/clone-for
-    [{:keys [body timestamp id flagged tags]} quotes]
+    [{:keys [body timestamp id flagged tags up down]} quotes]
     [:h3] (html/set-attr :id (str "quote-header-" id))
     [:blockquote.quote-body :p] (html/content body)
     [:span.quote-id] (html/content (str "#" id))
@@ -43,8 +43,8 @@
     [:a.quote-rating-up] (html/do-> (html/remove-class "casted-vote") (html/set-attr :href (format "/quotes/%d/votes" id) :id (str "quote-rating-up-" id)))
     [:a.quote-rating-down] (html/do-> (html/remove-class "casted-vote")(html/set-attr :href (format "/quotes/%d/votes" id) :id (str "quote-rating-down-" id)))
     [:span#quote-live-vote-result-ID] (html/do-> (html/set-attr :id (str "quote-live-vote-result-" id)) (html/content ""))
-    [:span.quote-rating] (html/do-> (html/set-attr :id (str "quote-rating-" id)) (html/content "+1"))
-    [:span#quote-vote-count-ID] (html/do-> (html/set-attr :id (str "quote-vote-count-" id)) (html/content "0"))
+    [:span.quote-rating] (html/do-> (html/set-attr :id (str "quote-rating-" id)) (html/content (str (- up down))))
+    [:span#quote-vote-count-ID] (html/do-> (html/set-attr :id (str "quote-vote-count-" id)) (html/content (str (+ up down))))
     [:span.quote-flagged] #(when (true? flagged) %)
     [:a.quote-report] #(when (not flagged) ((html/set-attr :id (str "quote-report-" id)) %))
         ;((html/content "[REPORT]"))); (html/set-attr :id (str "quote-report-" id) :href "#"))))

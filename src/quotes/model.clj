@@ -59,7 +59,7 @@
   [quote]
   (kc/with-cabinet {:filename quotes_db :mode (+ kc/OWRITER kc/OCREATE) }
     (kc/put-value (get quote :id) (wrap quote))
-    (map #(add-tag % (get quote :id)) (get quote :tags))))
+    (map #(add-tag % (get quote :id)) (get quote :tags)) quote))
 
 (defn get-latest
   "Retrieves the n latest quotes from the database."
@@ -108,10 +108,10 @@
       (cond
         (nil? entry)
           (do (kc/put-value key (wrap {"type" updown "timestamp" (now)}))
-              (commit-vote id updown) true)
+              (commit-vote id updown))
         (can-vote entry updown)
           (do (kc/put-value key (wrap (assoc (unwrap entry) "type" updown "timestamp" (now))))
-              (commit-vote id updown) true)
+              (commit-vote id updown))
         true false))))
 
 (defn vote-up
@@ -120,7 +120,7 @@
     ipaddress - unique identifier for the voter
   Returns true if the vote succeeded, false if not"
   [id ipaddress]
-  (attempt-vote id ipaddress :u))
+  (attempt-vote id ipaddress :up))
 
 (defn vote-down
   "Down vote a quote
@@ -128,4 +128,4 @@
     ipaddress - unique identifier for the voter
   Returns true if the vote succeeded, false if not"
   [id ipaddress]
-  (attempt-vote id ipaddress :d))
+  (attempt-vote id ipaddress :down))
