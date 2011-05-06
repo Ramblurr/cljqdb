@@ -14,6 +14,9 @@
 (defn browse-quotes []
   (views/browse-quotes-html (model/get-latest 100)))
 
+(defn quote-view [id]
+  (views/quote-view-html (model/get-quotes {:id id})))
+
 (defn votes [id]
   (views/quote-votes (model/get-quotes {:id id})))
 
