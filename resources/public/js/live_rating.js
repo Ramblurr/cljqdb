@@ -36,7 +36,7 @@ var okText = (/MSIE/.test(navigator.userAgent) && !window.opera
 
 var requests = new Array();
 
-function QuoteActionRequest (url, id, isReport) {
+function QuoteActionRequest (url, params, id, isReport) {
 	var t = getTimestamp();
 	var req = this;
 	this.id = id;
@@ -52,7 +52,7 @@ function QuoteActionRequest (url, id, isReport) {
 	this.startTime = t;
 	this.interval = setInterval(
 		function () { checkRequestTime(req); }, pollingInterval);
-	this.ajax.open("POST", this.url, true);
+	this.ajax.open("PUT", this.url, true);
 	this.ajax.send("");
 }
 

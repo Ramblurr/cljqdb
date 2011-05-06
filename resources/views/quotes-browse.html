@@ -11,11 +11,10 @@ Quote Browser
 
 <li id="quote->ID" class="quote unapproved flagged">
 <div class="quote-container">
-        <h3 class="quote-header" id="quote-header-ID">
+        <div class="quote-header" id="quote-header-ID">
 
         
         <!-- if IS_APPROVED -->
-                <span id="quote-live-vote-result-ID" class="quote-live-vote-result"></span>
                 <a href="LINK_URL" title="Permanent Link to Quote" class="quote-permalink"><span class="quote-id">#ID</span></a>
                 <a href="RATING_UP_URL" rel="nofollow" title="RATING_UP_DESCRIPTION" class="quote-rating-up casted-vote" id="quote-rating-up-ID">Up &uarr;</a>
                 <span id="quote-rating-ID" class="quote-rating" title="Quote Rating">RATING_TEXT</span><span
@@ -28,6 +27,7 @@ Quote Browser
                 <a href="REPORT_URL" rel="nofollow" title="REPORT_DESCRIPTION" class="quote-report" id="quote-report-ID">[Report]</a>
                 <!-- end if flagged-->
                 <span class="quote-date" title="DATE_DESCRIPTION"></span>
+                <span id="quote-live-vote-result-ID" class="quote-live-vote-result"></span>
                 <!-- if allow edit -->
 <!--                 <a href="EDIT_URL" class="quote-edit" title="EDIT_DESCRIPTION"></a> -->
                 <!-- endif allow edit -->
@@ -47,7 +47,7 @@ Quote Browser
                 <a href="RATING_DOWN_URL" rel="nofollow" title="RATING_DOWN_DESCRIPTION" class="quote-rating-down casted-vote" id="quote-rating-down-ID">DOWN&darr;</a>
                 <span class="quote-date" title="DATE_DESCRIPTION">SUBMITTED_TEXT</span>-->
         <!-- endif -->
-        </h3>
+        </div>
         <blockquote class="quote-body">
                 <p>BODY</p>
         </blockquote>

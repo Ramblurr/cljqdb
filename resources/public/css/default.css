@@ -241,7 +241,7 @@ ul.quote-list .quote-container {
 	border-radius: 1em 1em 2em 0.5em;
 }
 
-ul.quote-list li h3.quote-header {
+ul.quote-list li div.quote-header {
 	margin: 0;
 	padding: 0.25em 0.75em;
 	border: 1px #F4F4F4 solid;
@@ -250,24 +250,24 @@ ul.quote-list li h3.quote-header {
 	border-radius: 0.5em 0.5em 0 0;
 }
 
-ul.quote-list li h3.quote-header * {
+ul.quote-list li div.quote-header * {
 	margin: 0 0.125em;
 	padding: 0;
 }
 
-ul.quote-list li h3.quote-header * * {
+ul.quote-list li div.quote-header * * {
 	margin: 0;
 }
 
-ul.quote-list li h3.quote-header a.casted-vote {
+ul.quote-list li div.quote-header a.casted-vote {
 	opacity: 0.2;
 	text-decoration: line-through;
 	cursor: default;
 }
 
 /* opacity doesn't work in IE, so hide it altogether */
-* html ul.quote-list li h3.quote-header a.casted-vote,
-*:first-child + html ul.quote-list li h3.quote-header a.casted-vote {
+* html ul.quote-list li div.quote-header a.casted-vote,
+*:first-child + html ul.quote-list li div.quote-header a.casted-vote {
 	visibility: hidden;
 }
 
@@ -316,30 +316,34 @@ ul.quote-list li .quote-tags .quote-tags-title {
 	font-weight: normal;
 }
 
-ul.quote-list h3.quote-header .quote-date,
-ul.quote-list h3.quote-header .quote-edit,
-ul.quote-list h3.quote-header .quote-remove,
-ul.quote-list h3.quote-header .quote-unflag,
-ul.quote-list h3.quote-header .quote-live-vote-result {
+ul.quote-list div.quote-header .quote-date,
+ul.quote-list div.quote-header .quote-edit,
+ul.quote-list div.quote-header .quote-remove,
+ul.quote-list div.quote-header .quote-unflag,
+ul.quote-list div.quote-header .quote-live-vote-result {
 	font-size: 80%;
 }
 
-ul.quote-list h3.quote-header .quote-vote-count {
+ul.quote-list div.quote-header .quote-vote-count {
 	margin-left: 0;
 	font-size: 90%;
 }
 
-ul.quote-list h3.quote-header .quote-live-vote-result {
-	float: right;
+ul.quote-list div.quote-header .quote-live-vote-result {
+/* 	float: right; */
+/*         overflow: hidden; */
+/*         width: auto; */
+        opacity: 0;
+        color: red;
 	text-transform: uppercase;
 }
 
-ul.quote-list li.flagged h3.quote-header {
+ul.quote-list li.flagged div.quote-header {
 	border: 1px #E9E9E9 solid;
 	background: #ECECEC;
 }
 
-ul.quote-list li.unapproved h3.quote-header {
+ul.quote-list li.unapproved div.quote-header {
 	border: 1px #F9E9E9 solid;
 	background: #FCF0F0;
 }
