@@ -12,6 +12,9 @@
 (defn- unwrap [arg]
   (yaml/parse-string arg))
 
+(defn- now []
+  (coerce/to-long (time/now)))
+
 (defn add-tag
   "Assigns a quote to a tag."
   [tag id]
@@ -47,8 +50,14 @@
   [{:keys [body notes approved tags] :as all}]
   (kc/with-cabinet {:filename quotes_db :mode (+ kc/OWRITER kc/OCREATE) }
     (let [id (kc/increment "quotes_id")]
-      (kc/put-value id (wrap (assoc all :up 0 :down 0 :timestamp (coerce/to-long (time/now)))))
+      (kc/put-value id (wrap (assoc all :up 0 :down 0 :timestamp (now))))
       (map #(add-tag % id) tags))))
+
+(defn- update-quote
+  [quote]
+  (kc/with-cabinet {:filename quotes_db :mode (+ kc/OWRITER kc/OCREATE) }
+    (kc/put-value (get quote :id) (wrap quote))
+    (map #(add-tag % (get quote :id)) (get quote :tags))))
 
 (defn get-latest
   "Retrieves the n latest quotes from the database."
@@ -59,3 +68,42 @@
           ; calling this func is overkill, we should just query it
           (get-quotes (assoc {} :id id))))))
 
+
+
+(defn- commit-vote
+  [id key]
+  (let [aquote (get-quotes (assoc {} :id id))]
+    (if (nil? (aquote key))
+      (update-quote (assoc aquote key 1))
+      (update-quote (assoc aquote key (inc (aquote key)))))))
+
+(defn- commit-down-vote
+  [id]
+  (commit-vote id :down))
+
+(defn- commit-up-vote
+  [id]
+  (commit-vote id :up))
+
+(defn- can-up-vote
+  [entry]
+  (if (nil? entry)
+    true
+    (let [vote (unwrap entry)]
+      (if (map? vote)
+        (= (vote "type") "d")
+        false))))
+
+(defn attempt-vote-up
+  "Up vote a quote"
+  [id ipaddress]
+  (kc/with-cabinet {:filename votes_db :mode (+ kc/OWRITER kc/OCREATE kc/OREADER)}
+    (let [key (str ipaddress id) entry (kc/get-value key)]
+      (cond
+        (nil? entry)
+          (do (kc/put-value key (wrap {"type" "u" "timestamp" (now)}))
+              (commit-up-vote id) true)
+        (can-up-vote entry)
+          (do (kc/put-value key (wrap (assoc (unwrap entry) "type" "u" "timestamp" (now))))
+              (commit-up-vote id) true)
+        true false))))
