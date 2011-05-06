@@ -54,6 +54,8 @@
       (map #(add-tag % id) tags))))
 
 (defn- update-quote
+  "Given a quote map, update it in the database.
+    Requires that the :id keyword be set."
   [quote]
   (kc/with-cabinet {:filename quotes_db :mode (+ kc/OWRITER kc/OCREATE) }
     (kc/put-value (get quote :id) (wrap quote))
@@ -71,6 +73,9 @@
 
 
 (defn- commit-vote
+  "Increments the number of votes for a quote.
+    id - quote id
+    key - :u for up or :d for down"
   [id key]
   (let [aquote (get-quotes (assoc {} :id id))]
     (if (nil? (aquote key))
@@ -86,6 +91,8 @@
   (commit-vote id :up))
 
 (defn- can-vote
+  "Given an entry from the votes database, determine if the
+  ipaddress can vite for a quote"
   [entry key]
   (if (nil? entry)
     true
@@ -108,11 +115,17 @@
         true false))))
 
 (defn vote-up
-  "Up vote a quote"
+  "Up vote a quote.
+    id - quote id
+    ipaddress - unique identifier for the voter
+  Returns true if the vote succeeded, false if not"
   [id ipaddress]
   (attempt-vote id ipaddress :u))
 
 (defn vote-down
-  "Down vote a quote"
+  "Down vote a quote
+    id - quote id
+    ipaddress - unique identifier for the voter
+  Returns true if the vote succeeded, false if not"
   [id ipaddress]
   (attempt-vote id ipaddress :d))
