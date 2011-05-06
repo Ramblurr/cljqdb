@@ -20,7 +20,7 @@
    id - ID of the quote to retrieve."
   [{:keys [id]}]
   (kc/with-cabinet {:filename "quotes.kch" :mode (+ kc/OREADER) }
-    (unwrap (kc/get-value id))))
+    (assoc (unwrap (kc/get-value id)) :id id)))
 
 (defn put-quote
   "Adds a quote to the database
@@ -37,6 +37,6 @@
   [n]
   (kc/with-cabinet {:filename db_file :mode (+ kc/OWRITER ) }
     (let [total (inc (kc/increment "quotes_id" 0))] ; is this the only way to read the value?
-        (for [id (range (max 1 (- total n)) total)]
+        (for [id (reverse (range (max 1 (- total n)) total))]
           ; calling this func is overkill, we should just query it
           (get-quotes (assoc {} :id id))))))
