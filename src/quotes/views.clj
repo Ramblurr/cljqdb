@@ -33,7 +33,9 @@
 
 (html/defsnippet quote-form-model "views/quote-form.html" [[:#submit-form]] [])
 
-(html/defsnippet quotes-browse-model "views/quotes-browse.html" [[:#quotes-content]] [quotes]
+(html/defsnippet quotes-browse-model "views/quotes-browse.html" [[:#quotes-content]] [quotes prev next]
+  [:a.next-page] #(when (not (nil? next)) ((html/do-> (html/html-content "Next Page →") (html/set-attr :href (format "?start=%s" next))) %))
+  [:a.prev-page] #(when (not (nil? prev)) ((html/set-attr :href (format "?start=%s" prev)) %))
   [:li.quote] (html/clone-for
     [{:keys [body timestamp id flagged tags up down]} quotes]
     [:h3] (html/set-attr :id (str "quote-header-" id))
@@ -87,11 +89,11 @@
     (base (assoc *context* :content {:title "Quote Submitted" :text "Thank you for submitting a quote to our database. A site administrator will review it shortly. If it gets approved, it will appear on this web site. Fingers crossed!"}) simple-message-content)
     (base (assoc *context* :content { :title "Submission Failed" :text "There was an error. Sorry :("}) simple-message-content)))
 
-(defn browse-quotes-html [quotes]
-  (base (assoc *context* :content (quotes-browse-model quotes)) quotes-browse-content))
+(defn browse-quotes-html [quotes prev next]
+  (base (assoc *context* :content (quotes-browse-model quotes prev next)) quotes-browse-content))
 
 (defn quote-view-html [quote]
-  (base (assoc *context* :content (quotes-browse-model (list quote))) quotes-browse-content))
+  (base (assoc *context* :content (quotes-browse-model (list quote) nil nil)) quotes-browse-content))
 
 (defn quote-votes [{:keys [u d]}]
   (emit-json {:up u :down d}))

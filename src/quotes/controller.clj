@@ -11,8 +11,13 @@
   (let [{:keys [quote tags]} params]
     (views/quote-submitted (model/put-quote {:body quote :tags (string/split tags #",")}))))
 
-(defn browse-quotes []
-  (views/browse-quotes-html (model/get-latest 100)))
+(def page-incr 15)
+
+(defn browse-quotes [params]
+  (if (contains? params :start)
+    (let [start (Integer/parseInt (params :start))]
+      (views/browse-quotes-html (model/get-latest page-incr start) start (+ page-incr start)))
+    (views/browse-quotes-html (model/get-latest page-incr) nil page-incr)))
 
 (defn quote-view [id]
   (views/quote-view-html (model/get-quotes {:id id})))

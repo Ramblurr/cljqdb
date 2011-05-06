@@ -63,14 +63,14 @@
 
 (defn get-latest
   "Retrieves the n latest quotes from the database."
-  [n]
+  ([n]
+   (get-latest n 0))
+  ([n start]
   (kc/with-cabinet {:filename quotes_db :mode (+ kc/OWRITER ) }
     (let [total (inc (kc/increment "quotes_id" 0))] ; is this the only way to read the value?
-        (for [id (reverse (range (max 1 (- total n)) total))]
+        (for [id (reverse (range (max 1 (- total start n)) (max 2 (- total start))))]
           ; calling this func is overkill, we should just query it
-          (get-quotes (assoc {} :id id))))))
-
-
+          (get-quotes (assoc {} :id id)))))))
 
 (defn- commit-vote
   "Increments the number of votes for a quote.
