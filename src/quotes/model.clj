@@ -85,25 +85,34 @@
   [id]
   (commit-vote id :up))
 
-(defn- can-up-vote
-  [entry]
+(defn- can-vote
+  [entry key]
   (if (nil? entry)
     true
     (let [vote (unwrap entry)]
       (if (map? vote)
-        (= (vote "type") "d")
+        (= (vote "type") (name key))
         false))))
 
-(defn attempt-vote-up
-  "Up vote a quote"
-  [id ipaddress]
+(defn- attempt-vote
+  [id ipaddress updown]
   (kc/with-cabinet {:filename votes_db :mode (+ kc/OWRITER kc/OCREATE kc/OREADER)}
     (let [key (str ipaddress id) entry (kc/get-value key)]
       (cond
         (nil? entry)
-          (do (kc/put-value key (wrap {"type" "u" "timestamp" (now)}))
-              (commit-up-vote id) true)
-        (can-up-vote entry)
-          (do (kc/put-value key (wrap (assoc (unwrap entry) "type" "u" "timestamp" (now))))
-              (commit-up-vote id) true)
+          (do (kc/put-value key (wrap {"type" updown "timestamp" (now)}))
+              (commit-vote id updown) true)
+        (can-vote entry updown)
+          (do (kc/put-value key (wrap (assoc (unwrap entry) "type" updown "timestamp" (now))))
+              (commit-vote id updown) true)
         true false))))
+
+(defn vote-up
+  "Up vote a quote"
+  [id ipaddress]
+  (attempt-vote id ipaddress :u))
+
+(defn vote-down
+  "Down vote a quote"
+  [id ipaddress]
+  (attempt-vote id ipaddress :d))
