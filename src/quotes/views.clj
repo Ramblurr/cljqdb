@@ -9,7 +9,7 @@
   "Turn the object to JSON, and emit it with the correct content type.
     Source: http://wiki.sproutcore.com/w/page/27098640/Todos%2006-Building%20with%20Compojure%20and%20MongoDB "
   [x]
-  {:headers {"Content-Type" "application/json"}
+  {:headers {"Content-Type" "application/json;charset=utf8"}
    :body    (json/generate-string x)})
 
 (def *context*

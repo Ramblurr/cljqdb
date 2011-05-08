@@ -39,7 +39,8 @@
 (def app
     (-> main-routes
         compojure.handler/site
-        (wrap-charset (:charset "utf8"))))
+        (wrap-charset (:charset "utf8"))
+      ))
 
 (defonce server (run-jetty #'app
                   {:join? false
