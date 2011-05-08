@@ -26,6 +26,51 @@
 ###############################################################################
 */
 
+p {
+    font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 25px;
+}
+
+
+h1,h2,h3, .quote-header {
+    font-family: 'Arvo', Georgia, Times, serif;
+}
+
+h1 {
+    font-size: 40px;
+/*     line-height: 70px; */
+}
+
+pre {
+    font-family: 'Inconsolata', Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, Dejavu Sans Mono, Courier New, monospace, serif;
+   font-size: medium;
+}
+
+.quote-header {
+    font-size: medium;
+}
+
+ul.quote-list li .quote-notes .quote-notes-title, ul.quote-list li .quote-tags .quote-tags-title, ul.quote-list li .quote-footer p {
+    font-size: small;
+}
+
+ul#news-list .news-footer {
+font-weight: bold;
+margin-bottom: 1.5em;
+color: #AAA;
+font-size: 11px;
+text-align: right;
+border-bottom: 1px dotted;
+}
+
+#disclaimer {
+padding: 7px;
+background-color: lemonChiffon;
+-moz-border-radius: 0.5em;
+border-radius: 0.5em;
+}
+
 a:hover, a:active {
     color: #999;
 }
@@ -78,15 +123,20 @@ a:hover, a:active {
 }
 
 h1 a, h1 a:link, h1 a:visited {
-	background: #CFB;
-	border-top-color: #D6FFC6;
-	border-bottom-color: #C9F9B9;
+	background: #660000;
+	border-top-color: #800000;
+        border-bottom-color: #4D0000;
+        color: white;
+}
+
+h1 a, h1 a:hover {
+        color: #FF6600;
 }
 
 ul#navigation li a:hover, ul#navigation li a:active,
 ul.tabbed-pane-header li a:hover, ul.tabbed-pane-header li a:active {
-	background: #FDA;
-	border-color: #F0D0A0;
+	background: #FF6600;
+	border-color: #CC5200;
 }
 
 ul.quote-list li:hover div.quote-header {
