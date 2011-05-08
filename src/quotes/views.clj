@@ -33,6 +33,8 @@
   [:h1#title] (html/content {:tag :a, :attrs {:href href}, :content title})
   [:ul#navigation] (html/content (map nav-model nav)))
 
+(html/defsnippet welcome-model "views/welcome.html" [[:#welcome-box]] [])
+
 (html/defsnippet quote-form-model "views/quote-form.html" [[:#submit-form]] [])
 
 (html/defsnippet quotes-browse-model "views/quotes-browse.html" [[:#quotes-content]] [quotes prev next]
@@ -53,7 +55,7 @@
     [:a.quote-report] #(when (not flagged) ((html/set-attr :id (str "quote-report-" id)) %))
         ;((html/content "[REPORT]"))); (html/set-attr :id (str "quote-report-" id) :href "#"))))
     [:span.quote-date] (html/content (format/unparse (format/formatters :rfc822) (coerce/from-long timestamp)))
-    [:div.quote-tags :a] (html/clone-for [tag tags] (html/do-> (html/set-attr :href (str "/tags/" tag) :title (str "View quotes tagged " tag)) (html/content tag)))
+    [:div.quote-tags :a] (html/clone-for [tag tags] (html/do-> (html/set-attr :href (str "/tags/" tag) :title (str "View quotes tagged " tag)) (html/content (str tag " "))))
     ))
 
 (html/defsnippet simple-message-model (html/html-snippet "<div id=\"message\"><h2></h2><p></p></div>") [:#message]
@@ -62,7 +64,7 @@
   [:p]  (html/content text))
 
 (defn index-content [content]
-  (html/content content))
+  [:#welcome-box] (html/content content))
 
 (defn quote-form-content [content]
  [:#submit-form] (html/content content))
@@ -79,7 +81,7 @@
 )
 
 (defn index-html
-  ([] (base (assoc *context* :content "Welcome!") index-content)))
+  ([] (base (assoc *context* :content (welcome-model)) index-content)))
 
 (defn quote-form-html
   ([] (base (assoc *context* :content (quote-form-model)) quote-form-content)))
