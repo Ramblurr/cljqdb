@@ -15,6 +15,10 @@
 (defn- now []
   (coerce/to-long (time/now)))
 
+(defn- get-total-quotes []
+  (kc/with-cabinet {:filename quotes_db :mode (+ kc/OWRITER ) }
+    (inc (kc/increment "quotes_id" 0)))) ; is this the only way to read the value?
+
 (defn add-tag
   "Assigns a quote to a tag."
   [tag id]
@@ -66,11 +70,24 @@
   ([n]
    (get-latest n 0))
   ([n start]
-  (kc/with-cabinet {:filename quotes_db :mode (+ kc/OWRITER ) }
-    (let [total (inc (kc/increment "quotes_id" 0))] ; is this the only way to read the value?
-        (for [id (reverse (range (max 1 (- total start n)) (max 2 (- total start))))]
-          ; calling this func is overkill, we should just query it
-          (get-quotes (assoc {} :id id)))))))
+    (let [total (get-total-quotes)] ; is this the only way to read the value?
+      (for [id (reverse (range (max 1 (- total start n)) (max 2 (- total start))))]
+        ; calling this func is overkill, we should just query it
+        (get-quotes (assoc {} :id id))))))
+
+(defn get-top
+  ([n]
+   (get-top n 0))
+  ([n start]
+   (let [total (get-total-quotes)]
+    (subvec (->> (map #(get-quotes (assoc {} :id %)) (range 1 total))
+                 (sort-by :up)
+                 reverse
+                 vec)
+            start (+ start n)))))
+(defn get-random
+  [n]
+  (map #(get-quotes (assoc {} :id %)) (take n (shuffle (range 1 (get-total-quotes))))))
 
 (defn- commit-vote
   "Increments the number of votes for a quote.
