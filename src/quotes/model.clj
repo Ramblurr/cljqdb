@@ -84,7 +84,7 @@
                  (sort-by :up)
                  reverse
                  vec)
-            start (+ start n)))))
+            start (min (dec total) (+ start n))))))
 (defn get-random
   [n]
   (map #(get-quotes (assoc {} :id %)) (take n (shuffle (range 1 (get-total-quotes))))))
