@@ -29,6 +29,8 @@
   (GET "/quotes/:id/votes" [id] (controller/votes id))
   (PUT "/quotes/:id/votes" {remote-addr :remote-addr params :params} (controller/put-votes remote-addr params))
   (GET "/quotes" {params :params} (render (controller/browse-quotes params)))
+  (GET "/top" {params :params} (render (controller/top-quotes params)))
+  (GET "/random" {params :params} (render (controller/random-quotes params)))
   (POST "/quotes" {params :params} (controller/quote-form-submit params))
 ;  (PUT "/quotes" {params :params} (handle-submit params))
   (route/resources "/")

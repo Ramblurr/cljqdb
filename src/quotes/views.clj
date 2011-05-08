@@ -14,7 +14,9 @@
 
 (def *context*
   {:header {:title "VT Bash" :href "/"
-   :nav [{:text "Browse" :href "/quotes"}
+   :nav [{:text "Top" :href "/top"}
+         {:text "Browse" :href "/quotes"}
+         {:text "Random" :href "/random"}
          {:text "Submit" :href "/quotes/submit"}]}})
 
 

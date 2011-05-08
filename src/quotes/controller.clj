@@ -21,6 +21,18 @@
       (catch Exception e (browse-quotes {})))
     (views/browse-quotes-html (model/get-latest page-incr) nil page-incr)))
 
+(defn top-quotes [params]
+  (if (contains? params :start)
+    (try
+      (let [start (max 0 (Integer/parseInt (params :start)))]
+        (views/browse-quotes-html (model/get-top page-incr start) (max 0 (- start page-incr)) (+ page-incr start)))
+      (catch Exception e (browse-quotes {})))
+    (views/browse-quotes-html (model/get-top page-incr) nil page-incr)))
+
+(defn random-quotes [params]
+  (views/browse-quotes-html (model/get-random page-incr) nil nil))
+
+
 (defn quote-view [id]
   (views/quote-view-html (model/get-quotes {:id id})))
 
